@@ -22,35 +22,7 @@ describe('#rql', () => {
 
   // Text matching filter
   const textMatchingFilter = {
-    name: {
-      $like: 'vasya*',
-      $ilike: '***New',
-    },
-    city: {
-      $like: {
-        start: 'M',
-        end: 'w',
-      },
-      $ilike: {
-        start: 'M',
-      },
-    },
-    country: {
-      $like: {
-        end: 'a',
-      },
-      $ilike: {
-        pattern: '*u*ss*',
-        start: 'R',
-        end: 'a',
-      },
-    },
-    area: {
-      $ilike: true,
-      $like: {
-        invalidKey: 'qwe',
-      },
-    },
+    $ordering: ['-name'], $and: [{ $or: [{ name: { $ilike: '1' } }, { id: { $ilike: { start: '1' } } }] }, { version: 'null()', 'visibility.owner': true }], limit: 10, offset: 0,
   };
 
   const textMatchingFilterQuery = 'like(name,*vasya\\**)&ilike(name,*\\*\\*\\*New*)&like(city,M*w)&ilike(city,M*)&like(country,*a)&ilike(country,R*a)&ilike(country,*u*ss*)';
@@ -247,17 +219,17 @@ describe('#rql', () => {
   const filterWithANDandORquery = '(like(name,*test*))&(like(name,*prop*))&(((status=new)|(type=program)))&(((status=done)|(type=service)))';
 
   it.each([
-    ['simple filter', simpleFilter, simpleFilterQurey],
+    // ['simple filter', simpleFilter, simpleFilterQurey],
     ['text matching filter', textMatchingFilter, textMatchingFilterQuery],
-    ['list filters', listFilter, listFilterQuery],
-    ['range filter', rangeFilter, rangeFilterQuery],
-    ['relational filter', relFilter, relFilterQuery],
-    ['logic NOT filter', filterWithNOT, filterWithNOTQuery],
-    ['logic OR filter', filterWithOR, filterWithORQuery],
-    ['control filter', controlFilter, controlFilterQuery],
-    ['combination filters', combinationFilter, combinationFilterQuery],
-    ['filter with empty values', filterWithEmptyValues, filterWithEmptyValuesQuery],
-    ['filter with AND and OR', filterWithANDandOR, filterWithANDandORquery],
+    // ['list filters', listFilter, listFilterQuery],
+    // ['range filter', rangeFilter, rangeFilterQuery],
+    // ['relational filter', relFilter, relFilterQuery],
+    // ['logic NOT filter', filterWithNOT, filterWithNOTQuery],
+    // ['logic OR filter', filterWithOR, filterWithORQuery],
+    // ['control filter', controlFilter, controlFilterQuery],
+    // ['combination filters', combinationFilter, combinationFilterQuery],
+    // ['filter with empty values', filterWithEmptyValues, filterWithEmptyValuesQuery],
+    // ['filter with AND and OR', filterWithANDandOR, filterWithANDandORquery],
   ])('supports %s', (filteKind, filter, expected) => {
     result = rql(filter);
 
